@@ -1,0 +1,55 @@
+NAME
+    File::Spec - 可移植的文件名操作。
+
+DESCRIPTION
+    该模块被设计用来支持操作常用的文件规范（通常称为“文件名“，但是不要与文件内容和 Perl 的文件句柄想混淆）。
+    由于这些功能对于大多数操作系统是不同的，所以每个OS特定程序组都提供在一个单独的模块，包括：
+        File::Spec::Unix
+        File::Spec::Mac
+        File::Spec::OS2
+        File::Spec::Win32
+        File::Spec::VMS
+    适用于当前操作系统的模块将由 File::Spec 自动加载。由于一些模块仅仅利用该 OS 上的可用功能，所以它可能不会在所有的操作系统中加载的所有模块。
+
+    因为 File::Spec 是面向对象的，所以不应直接调用子程序。比如：
+        File::Spec::catfile('a','b');
+    而应将其作为类方法：
+        File::Spec->catfile('a','b');
+
+    对于简单的应用，File::Spec::Functions 提供了这项方法的方便的函数形式。
+
+METHODS
+    canonpath
+
+    catdir
+        连接两个或两个以上的目录名，以形成一个完整的路径，并以一个目录结束。但它将删除字符串中结尾的斜线，因为这看起来并不好，也没必要，并且会混淆 OS/2。当然，若这是根目录，则不会删除:-)
+            $path = File::Spec->catdir(@directories);
+
+    catfile
+        连接一个或多个目录名以及一个文件名，以形成一个完整的路径，并以一个文件名结束。
+            $path = File::Spec->catfile(@directories, $filename);
+
+    curdir
+        返回一个表示当前目录的字符串。
+            $curdir = File::Spec->curdir();
+
+    devnull
+        返回一个表示 null 设备的字符串。
+            $devnull = File::Spec->devnull();
+
+    rootdir
+        返回一个表示根目录的字符串。
+            $rootdir = File::Spec->rootdir();
+
+    tmpdir
+        返回一个从临时目录列表中找到的第一个可写的临时目录的字符串。如果没有找到任何可写的临时目录，将返回但前目录。临时目录列表依赖于平台，例如 File::Spec::Unix 将查找 $ENV{TMPDIR}（taint 模式关闭）和 /tmp。
+            $tmpdir = File::Spec->tmpdir();
+
+    updir
+        返回一个表示父级目录的字符串。
+            $updir = File::Spec->updir();
+
+    no_upwards
+
+    case_tolerant
+        返回 true 或 false 分别表示在比较文件规范时字母大小写是否有意义。

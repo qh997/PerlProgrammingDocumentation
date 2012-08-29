@@ -1,0 +1,19 @@
+NAME
+    File::Find - 遍历一个目录树.
+
+DESCRIPTION
+    这些函数用来通过搜索目录树并对每一个找到的文件作处理，类似于 Unix 的 find 命令。File::Find 提供两个函数 find 与 finddepth。出了有细微的差别，他们工作方式很相似。
+
+    %options
+
+    wanted 函数
+        wanted()函数将会在每个文件和目录进行任何你想做的验证。请注意，尽管它的名字是 wanted，但它却是一个通用回调函数，而且并不会告诉 File::Find 一个文件是否是 “wanted”。事实上，它的返回值会被忽略。
+        wanted 函数没有参数，而是通过变量集合来进行工作。
+            $File::Find::dir  当前目录名。
+            $_                当前目录内的文件名。
+            $File::Find::name 带完整路径的文件名。
+        上述变量都已经本地化，并且可能在不影响 wanted 函数外部数据的情况下发生改变。
+	例如，当检查文件 /some/path/foo.ext 时，你将拥有：
+            $File::Find::dir  = /some/path/
+            $_                = foo.ext
+            $File::Find::name = /some/path/foo.ext
