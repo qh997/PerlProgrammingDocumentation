@@ -53,3 +53,31 @@ METHODS
 
     case_tolerant
         返回 true 或 false 分别表示在比较文件规范时字母大小写是否有意义。
+            $is_case_tolerant = File::Spec->case_tolerant();
+
+    file_name_is_absolute
+        将参数作为一个路径，如果该路径是绝对路径则返回 true。
+            $is_absolute = File::Spec->file_name_is_absolute($path);
+        在 Unix, Win32, OS/2, 或 Mac OS（Classic）上，不会参考本地文件系统。但在 VMS 中会参考工作环境。
+
+    path
+        无参数。以列表形式返回环境变量 PATH（或本地平台等效物）。
+            @PATH = File::Spec->path();
+
+    join
+        与 catfile 一样。
+
+    splitpath
+        将一个路径分割为卷名、目录和文件名。如果系统没有卷的概念，则返回''作为卷名。
+            ($volume,$directories,$file) =
+                       File::Spec->splitpath($path);
+            ($volume,$directories,$file) =
+                       File::Spec->splitpath($path, $no_file);
+        因为系统在目录与文件名之间没有语法差异，所以将假设最后文件路径，除非 $no_file 为 true，或以分割符结尾，或存在 /. 和 /..。在 Unix中，这意味着 $no_file 为 true将会返回（'', $path, ''）。
+        目录末尾部分可能会也可能不会返回'/'。
+        该结果可以传递给 catpath() 用来得到一个相当于原路径的路径（通常是相同的）。
+
+    splitdir
+        catdir 的反操作。
+            @dirs = File::Spec->splitdir($directories);
+        
